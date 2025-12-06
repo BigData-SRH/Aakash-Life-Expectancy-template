@@ -1,40 +1,65 @@
 import streamlit as st
 import pandas as pd
-from pathlib import Path
+import numpy as np
 
-st.title("Data Explorer")
+# ===============================================================
+#     LOCAL BACKEND (MATCHES SAME BACKEND AS TRENDS PAGE)
+# ===============================================================
 
-st.write(
-    "This page loads a small example dataset from `data/example_data.csv` "
-    "and lets you explore it."
+def load_clean_data():
+    df = pd.read_csv("data/LifeExpectancyData_CLEANED.csv")
+
+    df.columns = (
+        df.columns
+        .str.replace("\xa0", " ", regex=True)
+        .str.replace(r"\s+", " ", regex=True)
+        .str.strip()
+    )
+
+    df = df.loc[:, ~df.columns.duplicated()].copy()
+
+    for col in df.columns:
+        df[col] = pd.to_numeric(df[col], errors="ignore")
+
+    for col in df.select_dtypes(include=["number"]).columns:
+        df[col].replace([np.inf, -np.inf], np.nan, inplace=True)
+
+    df.fillna(df.median(numeric_only=True), inplace=True)
+    return df
+
+
+# ===============================================================
+#                       PAGE STARTS HERE
+# ===============================================================
+
+st.set_page_config(page_title="Data Explorer", page_icon="📊", layout="wide")
+st.title("📊 Data Explorer")
+
+df = load_clean_data()
+
+countries = ["All"] + sorted(df["Country"].unique())
+years     = ["All"] + sorted(df["Year"].unique().tolist())
+
+c1, c2 = st.columns(2)
+with c1:
+    selected_country = st.selectbox("Country", countries)
+with c2:
+    selected_year = st.selectbox("Year", years)
+
+filtered = df.copy()
+
+if selected_country != "All":
+    filtered = filtered[filtered["Country"] == selected_country]
+
+if selected_year != "All":
+    filtered = filtered[filtered["Year"] == selected_year]
+
+st.dataframe(filtered, use_container_width=True, height=450)
+
+# Download option
+st.download_button(
+    "Download Filtered CSV",
+    filtered.to_csv(index=False).encode(),
+    "filtered_data.csv",
+    "text/csv"
 )
-
-data_path = Path("data/example.csv")
-
-try:
-    df = pd.read_csv(data_path)
-except FileNotFoundError:
-    st.error(f"Could not find data file at `{data_path}`.")
-    st.stop()
-
-st.subheader("Raw data")
-st.dataframe(df, use_container_width=True)
-
-st.subheader("Filter by x value")
-min_x, max_x = float(df["x"].min()), float(df["x"].max())
-selected_range = st.slider(
-    "Select x range",
-    min_value=min_x,
-    max_value=max_x,
-    value=(min_x, max_x),
-)
-
-mask = (df["x"] >= selected_range[0]) & (df["x"] <= selected_range[1])
-filtered_df = df[mask]
-
-st.write(f"Showing {len(filtered_df)} rows in the selected range.")
-st.dataframe(filtered_df, use_container_width=True)
-
-st.subheader("Line chart of y over x (filtered)")
-st.line_chart(filtered_df.set_index("x")["y"])
-
