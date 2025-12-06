@@ -253,10 +253,20 @@ analytics, and policy planning.
 st.markdown("<div class='section-title'>📚 Credits & References</div>", unsafe_allow_html=True)
 st.markdown("""
 <div class='text-block'>
+
 <b>Data Sources:</b>
 <ul>
-<li>World Health Organization (WHO) — Global Health Observatory</li>
-<li>Kaggle Source Dataset (Life Expectancy WHO)</li>
+<li>
+    <a href="https://www.who.int/data/gho" target="_blank">
+        World Health Organization (WHO) — Global Health Observatory
+    </a>
+</li>
+
+<li>
+    <a href="https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who" target="_blank">
+        Kaggle Source Dataset — Life Expectancy WHO
+    </a>
+</li>
 </ul>
 
 <b>Tools & Libraries:</b>
@@ -268,11 +278,14 @@ st.markdown("""
 
 <br>
 
-<b>Developed By:</b>
-<br>
-<b>Aakash Vashist</b>  
-M.Sc. Computer Science (Big Data & AI)  
+<b>Developed By:</b><br>
+<a href="https://www.linkedin.com/in/aakash-vashist-403b83281/" target="_blank">
+    <b>Aakash Vashist</b>
+</a><br>
+M.Sc. Computer Science (Big Data & AI)<br>
 SRH University of Applied Sciences
+
 </div>
 """, unsafe_allow_html=True)
+
 
