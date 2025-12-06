@@ -283,7 +283,7 @@ st.markdown("""
     <b>Aakash Vashist</b>
 </a><br>
 M.Sc. Computer Science (Big Data & AI)<br>
-SRH University of Applied Sciences
+SRH University of Applied Sciences, Germany
 
 </div>
 """, unsafe_allow_html=True)
