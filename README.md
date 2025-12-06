@@ -85,9 +85,9 @@ Dataset was cleaned:
 
 ```
 Life-Expectancy-Dashboard/
-├─ app.py
+├─ Overview.py
 ├─ pages/
-│  ├─ 01_Trends_and_Comparisons.py
+│  ├─ 01_Trends_and_Comparison.py
 │  ├─ 02_Data_Explorer.py
 │  └─ 03_About.py
 ├─ data/
