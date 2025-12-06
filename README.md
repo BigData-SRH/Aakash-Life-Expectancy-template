@@ -145,8 +145,3 @@ streamlit run Overview.py
 - Python  
 - Streamlit  
 - Plotly  
-
-**Developed By**  
-**Aakash Vashist**  
-M.Sc. Computer Science (Big Data & AI)  
-SRH University of Applied Sciences
